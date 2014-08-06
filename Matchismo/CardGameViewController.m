@@ -10,8 +10,6 @@
 #import "Deck.h"
 #import "PlayingCardDeck.h"
 
-#define TOTALCARDS 10
-
 @interface CardGameViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
 @property (nonatomic) int flipCount;
@@ -35,10 +33,12 @@ Deck *deck;
 - (IBAction)touchCardButton:(UIButton *)sender {
 
 
-    if ([sender.currentTitle length] || self.flipCount > TOTALCARDS) {
+    if ([sender.currentTitle length]) {
         [sender setBackgroundImage:[UIImage imageNamed:@"cardback"]
                           forState:UIControlStateNormal];
         [sender setTitle:@"" forState:UIControlStateNormal];
+        self.flipCount++;
+
     } else {
         
         //initialize the deck if it isn't
@@ -63,15 +63,14 @@ Deck *deck;
             [sender setTitleColor: [UIColor redColor] forState:UIControlStateNormal];
         }
 
+        if (card) {
         //setup the front.
         [sender setBackgroundImage:[UIImage imageNamed:@"cardfront"]
                           forState:UIControlStateNormal];
         [sender setTitle:[card contents] forState:UIControlStateNormal];
-    }
+        }
+        self.flipCount++;
 
-    self.flipCount++;
-    if (self.flipCount > TOTALCARDS) {
-        self.flipsLabel.text = [NSString stringWithFormat:@"Sorry, out of cards!"];
     }
 
 }
